@@ -49,9 +49,15 @@ function copyTree(from: string, to: string): number {
 function main(): void {
   const out = outputDir();
   // Start from a clean output directory so a second run writes the same
-  // bytes as the first (the grader runs this program twice).
-  rmSync(out, { recursive: true, force: true });
+  // bytes as the first (the grader runs this program twice). The output
+  // directory itself must NEVER be removed: in the grader /output is a
+  // mount point whose parent filesystem is read-only, so rmSync on it
+  // fails with EACCES and the whole run fails before it writes anything.
+  // Only its contents are cleared, never the directory itself.
   mkdirSync(out, { recursive: true });
+  for (const entry of readdirSync(out)) {
+    rmSync(join(out, entry), { recursive: true, force: true });
+  }
 
   const gameFiles = copyTree(join(REPO_ROOT, 'game'), join(out, 'game'));
   const shotFiles = copyTree(join(REPO_ROOT, 'screenshots'), join(out, 'screenshots'));
