@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ember Garden — a tower-defense game</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app">
+  <header id="hud">
+    <div class="brand"><span class="brand-ember">🔥</span> EMBER GARDEN</div>
+    <div class="hud-stat" id="hud-gold" title="Gold — spend it on towers">🪙 <b id="gold-value">150</b></div>
+    <div class="hud-stat" id="hud-bloom" title="Heart Bloom health — if it reaches 0, the garden falls">🌸 <span id="bloom-bar"><span id="bloom-fill"></span></span> <b id="bloom-value">20</b></div>
+    <div class="hud-stat" title="Current wave">🌊 Wave <b id="wave-value">–</b> / 12</div>
+    <div class="hud-stat" title="Score">⭐ <b id="score-value">0</b></div>
+    <div class="hud-stat" title="Enemies still to come this wave">🦋 <b id="foes-value">0</b> left</div>
+    <div class="hud-buttons">
+      <button id="btn-speed" class="hud-btn" title="Game speed (F)">1×</button>
+      <button id="btn-pause" class="hud-btn" title="Pause (P / Esc)">⏸</button>
+      <button id="btn-mute" class="hud-btn" title="Sound on/off (M)">🔊</button>
+      <button id="btn-restart" class="hud-btn" title="Restart the game (R)">↻</button>
+    </div>
+  </header>
+
+  <main id="stage">
+    <div id="board-wrap">
+      <canvas id="board" width="960" height="600"></canvas>
+      <div id="board-hint">Click a tower below, then click a glowing tile to build it.</div>
+    </div>
+
+    <aside id="side">
+      <section id="shop">
+        <h2>Build a tower</h2>
+        <div id="tower-cards"></div>
+      </section>
+
+      <section id="picked">
+        <h2>Selected tower</h2>
+        <div id="picked-empty">Click one of your towers on the board to see it here.</div>
+        <div id="picked-body" hidden>
+          <div id="picked-name"></div>
+          <div id="picked-stats"></div>
+          <div class="picked-row">
+            <button id="btn-upgrade" class="action-btn">⬆ Upgrade</button>
+            <button id="btn-sell" class="action-btn danger">💰 Sell</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="wave-box">
+        <button id="btn-wave" class="wave-btn">▶ Start wave 1 <span class="key">Space</span></button>
+        <div id="wave-status">Build towers, then send the first wave.</div>
+      </section>
+
+      <section id="howto">
+        <h2>How to play</h2>
+        <ul>
+          <li><b>1 / 2 / 3</b> pick a tower, <b>click</b> a tile to build it.</li>
+          <li>Moths walk the stone path to the <b>Heart Bloom</b>. Stop them!</li>
+          <li>Kills earn gold. Survive all <b>12 waves</b> to win.</li>
+          <li><b>Space</b> next wave · <b>F</b> speed · <b>P</b> pause · <b>M</b> sound</li>
+        </ul>
+      </section>
+    </aside>
+  </main>
+</div>
+
+<div id="screen-title" class="overlay">
+  <div class="panel">
+    <div class="title-flame">🔥🌸🔥</div>
+    <h1>EMBER GARDEN</h1>
+    <p class="tagline">A tiny tower-defense game in a night garden.</p>
+    <p class="goal">The <b>Heart Bloom</b> glows at the end of the stone path. Waves of <b>Gloom Moths</b> march to eat it. Build Thornspikes, Emberblooms and Frostshards, earn gold from every kill, and survive all <b>12 waves</b>.</p>
+    <button id="btn-start" class="big-btn">▶ &nbsp;Start the garden</button>
+    <p class="controls-line">Mouse to build · <b>1/2/3</b> towers · <b>Space</b> next wave · <b>P</b> pause · <b>M</b> sound</p>
+  </div>
+</div>
+
+<div id="screen-pause" class="overlay" hidden>
+  <div class="panel">
+    <h1>PAUSED</h1>
+    <p class="goal">The moths wait in the dark. Take a breath.</p>
+    <button id="btn-resume" class="big-btn">▶ &nbsp;Keep playing</button>
+    <button id="btn-restart2" class="big-btn ghost">↻ &nbsp;Restart from wave 1</button>
+  </div>
+</div>
+
+<div id="screen-win" class="overlay" hidden>
+  <div class="panel win">
+    <div class="title-flame">🌸✨🌸</div>
+    <h1>THE GARDEN BLOOMS!</h1>
+    <p class="goal">All 12 waves are beaten. The Heart Bloom shines brighter than ever, and not a single moth is left.</p>
+    <p class="final-score">Score: <b id="win-score">0</b> &nbsp;·&nbsp; Kills: <b id="win-kills">0</b> &nbsp;·&nbsp; Bloom HP left: <b id="win-hp">0</b></p>
+    <button id="btn-again-win" class="big-btn">↻ &nbsp;Play again</button>
+  </div>
+</div>
+
+<div id="screen-lose" class="overlay" hidden>
+  <div class="panel lose">
+    <div class="title-flame">🥀🌑🥀</div>
+    <h1>THE BLOOM HAS FALLEN</h1>
+    <p class="goal">The Gloom Moths ate the Heart Bloom on wave <b id="lose-wave">1</b>. The garden goes dark… but the seeds remember.</p>
+    <p class="final-score">Score: <b id="lose-score">0</b> &nbsp;·&nbsp; Kills: <b id="lose-kills">0</b> &nbsp;·&nbsp; Waves cleared: <b id="lose-cleared">0</b></p>
+    <button id="btn-again-lose" class="big-btn">↻ &nbsp;Try again</button>
+  </div>
+</div>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
